@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:patrol_example/main.dart';
+import 'package:patrol_example/counter_example/counter_example.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
 void main() {
@@ -11,7 +11,9 @@ void main() {
         tester: tester,
         config: const PatrolTesterConfig(),
       );
-      await $.pumpWidget(const MainApp());
+      await $.pumpWidget(const MaterialApp(
+        home: CounterExample(),
+      ));
 
       expect($('0'), findsOneWidget);
       expect($('-1'), findsNothing);

@@ -1,40 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:patrol_example/todo_example/todo_model.dart';
 import 'package:patrol_example/todo_example/todo_service.dart';
+import 'package:provider/provider.dart';
 
-class TodoExample extends StatefulWidget {
+class TodoExample extends StatelessWidget {
   const TodoExample({super.key});
 
   @override
-  State<TodoExample> createState() => _TodoExampleState();
-}
-
-class _TodoExampleState extends State<TodoExample> {
-  late final TodoService todoService;
-
-  @override
-  void initState() {
-    todoService = TodoService();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final todoService = Provider.of<TodoService>(context);
+    
     return Scaffold(
       appBar: AppBar(title: const Text('Todo App')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            todoService.add(
-              TodoModel(
-                title: 'Todo: ${(todoService.todoList.length + 1).toString()}',
-                done: false,
-              ),
-            );
-          });
-        },
-        tooltip: 'Add Todo',
-        child: const Icon(Icons.add),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              todoService.addTodo(
+                TodoModel(
+                  id: todoService.todoList.length + 1,
+                  title: 'Todo: ${(todoService.todoList.length + 1).toString()}',
+                  done: false,
+                ),
+              );
+            },
+            tooltip: 'Add Todo',
+            child: const Icon(Icons.add),
+          ),
+          FloatingActionButton(
+            onPressed: todoService.clearAllTodos,
+            tooltip: 'Clear Todos',
+            child: const Icon(Icons.delete),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -48,9 +48,7 @@ class _TodoExampleState extends State<TodoExample> {
                   title: Text(todo.title ?? ''),
                   trailing: Checkbox(
                     value: todo.done,
-                    onChanged: (_) => setState(() {
-                      todoService.toggle(todo);
-                    }),
+                    onChanged: (_) => todoService.toggleTodo(todo.id ?? 0),
                   ),
                 );
               },
@@ -67,9 +65,7 @@ class _TodoExampleState extends State<TodoExample> {
                   title: Text(todo.title ?? ''),
                   trailing: Checkbox(
                     value: todo.done,
-                    onChanged: (_) => setState(() {
-                      todoService.toggle(todo);
-                    }),
+                    onChanged: (_) => todoService.toggleTodo(todo.id ?? 0),
                   ),
                 );
               },

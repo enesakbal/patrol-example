@@ -1,6 +1,7 @@
 class TodoModel {
+  int? id;
   String? title;
   bool? done;
 
-  TodoModel({this.title, this.done});
+  TodoModel({this.id, this.title, this.done});
 }

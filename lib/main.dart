@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:patrol_example/authentication_example/user_service.dart';
 import 'package:patrol_example/todo_example/todo_example.dart';
-import 'package:patrol_example/todo_example/todo_service.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TodoService(),
+      create: (_) => UserService(),
       child: const MaterialApp(
         home: TodoExample(),
       ),
